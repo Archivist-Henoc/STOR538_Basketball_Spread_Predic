@@ -1,4 +1,4 @@
-﻿Name,Height (inches),Weight,Nationality,Age,Stance,Prep Time (seconds),Slope Time (seconds),Air Time (seconds),Rotations (Horizontal),Flips (Vertical),Stick Landing,Landing Distance,Score,Total Time (seconds),Gender
+﻿Name,Height,Weight,Nationality,Age,Stance,PrepTime,SlopeTime,AirTime,Rotations,Flips,Stick Landing,Landing Distance,Score,TotalTime,Gender
 Anna Gasser,65,115,Austrian,30,Regular,13.6,6.48,2.2,0,2,1,2,90,22.28,0
 Anna Gasser,65,115,Austrian,30,Regular,26.25,6.5,2.45,1,2,1,2,86.75,35.2,0
 Annika Morgan,68,150,German,20,Goofy,18.67,6.66,2.46,0,2,0,2,15.5,27.79,0
