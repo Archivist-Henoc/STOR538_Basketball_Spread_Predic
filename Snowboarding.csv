@@ -1,0 +1,61 @@
+﻿Name,Height,Weight,Nationality,Age,Stance,PrepTime,SlopeTime,AirTime,Rotations,Flips,StickLanding,LandingDistance,TotalTime,Gender,Score
+Anna Gasser,65,115,Austrian,30,Regular,13.6,6.48,2.2,0,2,TRUE,2,22.28,Female,90
+Anna Gasser,65,115,Austrian,30,Regular,26.25,6.5,2.45,1,2,TRUE,2,35.2,Female,86.75
+Annika Morgan,68,150,German,20,Goofy,18.67,6.66,2.46,0,2,FALSE,2,27.79,Female,15.5
+Annika Morgan,68,150,German,20,Goofy,23.88,7.38,2.17,0,2,TRUE,2,33.43,Female,73.5
+Chris Corning,68,165,American,22,Goofy,32,8,3,2,3,TRUE,4,43,Male,92
+Chris Corning,68,165,American,22,Goofy,23,7,2,3,0,FALSE,3,32,Male,35.5
+Chris Corning,68,165,American,22,Goofy,33,5,2,5,0,TRUE,4,40,Male,64
+Darcy Sharpe,72,165,Canadian,26,Regular,61,6,2,3,0,FALSE,3,69,Male,20
+Darcy Sharpe,72,165,Canadian,26,Regular,23,6,5,2,2,TRUE,3,34,Male,82
+Darcy Sharpe,72,165,Canadian,26,Regular,29,6,2,0,3,FALSE,1,37,Male,5.75
+Ge Rong,60,100,Chinese,19,Regular,22.49,7.2,1.98,0,2,FALSE,2,31.67,Female,29
+Ge Rong,60,100,Chinese,19,Regular,29.62,6.63,2.05,0,2,TRUE,2,38.3,Female,85.75
+Hailey Langland,62,110,American,21,Regular,36.97,7.2,1.6,4,0,FALSE,1,45.77,Female,25.25
+Hailey Langland,62,110,American,21,Regular,25.8,6.65,2.4,3,0,FALSE,2,34.85,Female,31
+Jasmine Baird,68,154,Canadian,22,Regular,33.01,6.69,2.08,0,2,TRUE,2,41.78,Female,68.75
+Jasmine Baird,68,154,Canadian,22,Regular,27.28,6.95,2.03,1.5,0,TRUE,2,36.26,Female,48.75
+Kokomo Murase,60,93,Japanese,17,Regular,33,6.35,2.22,2,0,TRUE,2,41.57,Female,80
+Kokomo Murase,60,93,Japanese,17,Regular,22.95,6.76,2.27,3,0,TRUE,2,31.98,Female,91.5
+Kunitake Hiroaki,64,119,Japanese,20,Goofy,29,6,2,5,0,TRUE,2,37,Male,82.25
+Kunitake Hiroaki,64,119,Japanese,20,Goofy,25,5,3,5,0,FALSE,2,33,Male,50.25
+Kunitake Hiroaki,64,119,Japanese,20,Goofy,33,5,2,4,0,TRUE,3,40,Male,84
+Laurie Blouin,65,140,Canadian,25,Goofy,32.39,6.5,2.1,0,2,FALSE,1,40.99,Female,13.5
+Laurie Blouin,65,140,Canadian,25,Goofy,22.5,6.91,2.4,3,0,TRUE,2,31.81,Female,86.25
+Marcus Kleveland,68,160,Norwegian,22,Goofy,15,6,3,6,0,TRUE,3,24,Male,87.75
+Marcus Kleveland,68,160,Norwegian,22,Goofy,14,6,2,0,2,TRUE,1,22,Male,62.25
+Marcus Kleveland,68,160,Norwegian,22,Goofy,18,5,2,4,1,FALSE,3,25,Male,39
+Mark McMorris,70,159,Canadian,28,Regular,15,6,3,5,0,TRUE,2,24,Male,80.5
+Mark McMorris,70,159,Canadian,28,Regular,19,5,4,1,3,FALSE,2,28,Male,21
+Mark McMorris,70,159,Canadian,28,Regular,27,4,2,1,4,FALSE,3,33,Male,33.25
+Max Parrot,71,154,Canadian,27,Goofy,35,6,2,4,1,FALSE,2,43,Male,28.25
+Max Parrot,71,154,Canadian,27,Goofy,17,5,3,4,2,TRUE,3,25,Male,94
+Max Parrot,71,154,Canadian,27,Goofy,25,5,3,1,4,TRUE,3,33,Male,76.25
+Melissa Peperkamp,68,145,Dutch,17,Regular,18.38,6.56,2.65,4,0,TRUE,2,27.59,Female,64.25
+Melissa Peperkamp,68,145,Dutch,17,Regular,23.18,6.11,2.35,3,0,TRUE,2,31.64,Female,72
+Miyabi Onitsuka,62,104,Japanese,23,Regular,22.76,6.63,2.2,3,0,FALSE,1,31.59,Female,9.5
+Miyabi Onitsuka,62,104,Japanese,23,Regular,41.49,6.6,2.1,1,0,FALSE,2,50.19,Female,54.5
+Mons Roisland,71,170,Norwegian,25,Regular,17,7,3,4,0,TRUE,3,27,Male,89.25
+Mons Roisland,71,170,Norwegian,25,Regular,15,5,3,7,0,TRUE,3,23,Male,75.75
+Mons Roisland,71,170,Norwegian,25,Regular,25,6,3,4,0,TRUE,3,34,,82.5
+Niek Van Der Velden,69,154,Dutch,21,Regular,18,7,2,2,2,TRUE,3,27,Male,83.75
+Niek Van Der Velden,69,154,Dutch,21,Regular,18,7,4,2,2,TRUE,3,29,Male,78.25
+Niek Van Der Velden,69,154,Dutch,21,Regular,31,5,3,4,1,FALSE,2,39,Male,26.75
+Otsuka Takeru,65,120,Japanese,20,Regular,39,7,3,3,1,FALSE,3,49,Male,17.25
+Otsuka Takeru,65,120,Japanese,20,Regular,34,6,4,2,3,TRUE,4,44,Male,95
+Otsuka Takeru,65,120,Japanese,20,Regular,40,6,2,2,3,FALSE,2,48,Male,33.75
+Redmond Gerard,65,117,American,21,Regular,27,6,2,5,0,TRUE,2,35,Male,82.5
+Redmond Gerard,65,117,American,21,Regular,21,6,3,4,1,FALSE,3,30,Male,19.25
+Redmond Gerard,65,117,American,21,Regular,25,5,2,6,1,TRUE,2,32,Male,83.25
+Reira Iwabuchi,59,97,Japanese,20,Regular,40.4,6.65,2.27,1,1,TRUE,1,49.32,Female,83.75
+Reira Iwabuchi,59,97,Japanese,20,Regular,34.59,6.29,2.4,3.5,0,TRUE,2,43.28,Female,82.25
+Su Yiming,66,132,Chinese,17,Goofy,34,6,3,3,2,TRUE,3,43,Male,89.5
+Su Yiming,66,132,Chinese,17,Goofy,27,5,4,4,3,TRUE,4,36,Male,93
+Su Yiming,66,132,Chinese,17,Goofy,32.02,6.24,2.53,1,0,TRUE,2,40.79,Male,33
+Sven Thorgren,68,154,Sweden,27,Regular,15,7,2,5,0,FALSE,3,24,Male,25.25
+Sven Thorgren,68,154,Sweden,27,Regular,15,7,3,6,0,TRUE,3,25,Male,67
+Sven Thorgren,68,154,Sweden,27,Regular,12,6,2,4,0,FALSE,2,20,Male,21.5
+Tess Coady,67,117,Australian,21,Regular,18.59,7.05,2,0,2,TRUE,1,27.64,Female,85
+Tess Coady,67,117,Australian,21,Regular,24.09,6.81,2.4,0,2,FALSE,2,33.3,Female,29.75
+Zoi Sadowski Synnott,65,126,New Zealand,20,Regular,27.91,7.05,2.55,0,2,TRUE,3,37.51,Female,93.25
+Zoi Sadowski Synnott,65,126,New Zealand,20,Regular,36.33,5.99,2.42,3,0,TRUE,2,44.74,Female,83.75
