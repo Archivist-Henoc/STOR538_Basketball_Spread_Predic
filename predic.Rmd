@@ -1,0 +1,665 @@
+---
+title: "Untitled"
+author: "Henoc Codjie"
+date: "2023-04-02"
+output: html_document
+---
+```{r}
+
+library(readr)
+library(dplyr)
+library(corrplot)
+library(ggplot2)
+library(caret)
+library(car)
+library(corrplot)
+library(leaps)
+
+source("https://raw.githubusercontent.com/JA-McLean/STOR455/master/scripts/ShowSubsets.R")
+
+```
+
+```{r}
+
+df <- read.csv("predictions.csv")
+
+df$Home_ID <- 0
+df$Away_ID <- 0
+df$Spread_Pred <- 0
+df$Home_TPG <- 0
+df$Away_TPG <- 0
+df$Home_TSG <- 0
+df$Away_TSG <- 0
+df$Home_TOG <- 0
+df$Away_TOG <- 0
+df$Home_PPG <- 0
+df$Away_PPG <- 0
+df$Home_SPG <- 0
+df$Away_SPG <- 0
+df$Home_OPG <- 0
+df$Away_OPG <- 0
+
+```
+
+```{r}
+
+for (i in 1:nrow(df)) {
+  if (df$Away[i] == "Atlanta Hawks") {
+    df$Away_ID[i] <- 1610612737
+  } else if (df$Away[i] == "Boston Celtics") {
+    df$Away_ID[i] <- 1610612738
+  } else if (df$Away[i] == "Brooklyn Nets") {
+    df$Away_ID[i] <- 1610612751
+  } else if (df$Away[i] == "Charlotte Hornets") {
+    df$Away_ID[i] <- 1610612766
+  } else if (df$Away[i] == "Chicago Bulls") {
+    df$Away_ID[i] <- 1610612741
+  } else if (df$Away[i] == "Cleveland Cavaliers") {
+    df$Away_ID[i] <- 1610612739
+  } else if (df$Away[i] == "Dallas Mavericks") {
+    df$Away_ID[i] <- 1610612742
+  } else if (df$Away[i] == "Denver Nuggets") {
+    df$Away_ID[i] <- 1610612743
+  } else if (df$Away[i] == "Detroit Pistons") {
+    df$Away_ID[i] <- 1610612765
+  } else if (df$Away[i] == "Golden State Warriors") {
+    df$Away_ID[i] <- 1610612744
+  } else if (df$Away[i] == "Houston Rockets") {
+    df$Away_ID[i] <- 1610612745
+  } else if (df$Away[i] == "Indiana Pacers") {
+    df$Away_ID[i] <- 1610612754
+  } else if (df$Away[i] == "Los Angeles Clippers") {
+    df$Away_ID[i] <- 1610612746
+  } else if (df$Away[i] == "Los Angeles Lakers") {
+    df$Away_ID[i] <- 1610612747
+  } else if (df$Away[i] == "Memphis Grizzlies") {
+    df$Away_ID[i] <- 1610612763
+  } else if (df$Away[i] == "Miami Heat") {
+    df$Away_ID[i] <- 1610612748
+  } else if (df$Away[i] == "Milwaukee Bucks") {
+    df$Away_ID[i] <- 1610612749
+  } else if (df$Away[i] == "Minnesota Timberwolves") {
+    df$Away_ID[i] <- 1610612750
+  } else if (df$Away[i] == "New Orleans Pelicans") {
+    df$Away_ID[i] <- 1610612740
+  } else if (df$Away[i] == "New York Knicks") {
+    df$Away_ID[i] <- 1610612752
+  } else if (df$Away[i] == "Oklahoma City Thunder") {
+    df$Away_ID[i] <- 1610612760
+  } else if (df$Away[i] == "Orlando Magic") {
+    df$Away_ID[i] <- 1610612753
+  } else if (df$Away[i] == "Philadelphia 76ers") {
+    df$Away_ID[i] <- 1610612755
+  } else if (df$Away[i] == "Phoenix Suns") {
+    df$Away_ID[i] <- 1610612756
+  } else if (df$Away[i] == "Portland Trail Blazers") {
+    df$Away_ID[i] <- 1610612757
+  } else if (df$Away[i] == "Sacramento Kings") {
+    df$Away_ID[i] <- 1610612758
+  } else if (df$Away[i] == "San Antonio Spurs") {
+    df$Away_ID[i] <- 1610612759
+  } else if (df$Away[i] == "Toronto Raptors") {
+    df$Away_ID[i] <- 1610612761
+  } else if (df$Away[i] == "Utah Jazz") {
+    df$Away_ID[i] <- 1610612762
+  } else if (df$Away[i] == "Washington Wizards") {
+    df$Away_ID[i] <- 1610612764
+  }
+}
+
+df
+
+```
+
+```{r}
+
+for (i in 1:nrow(df)) {
+  if (df$Home[i] == "Atlanta Hawks") {
+    df$Home_ID[i] <- 1610612737
+  } else if (df$Home[i] == "Boston Celtics") {
+    df$Home_ID[i] <- 1610612738
+  } else if (df$Home[i] == "Brooklyn Nets") {
+    df$Home_ID[i] <- 1610612751
+  } else if (df$Home[i] == "Charlotte Hornets") {
+    df$Home_ID[i] <- 1610612766
+  } else if (df$Home[i] == "Chicago Bulls") {
+    df$Home_ID[i] <- 1610612741
+  } else if (df$Home[i] == "Cleveland Cavaliers") {
+    df$Home_ID[i] <- 1610612739
+  } else if (df$Home[i] == "Dallas Mavericks") {
+    df$Home_ID[i] <- 1610612742
+  } else if (df$Home[i] == "Denver Nuggets") {
+    df$Home_ID[i] <- 1610612743
+  } else if (df$Home[i] == "Detroit Pistons") {
+    df$Home_ID[i] <- 1610612765
+  } else if (df$Home[i] == "Golden State Warriors") {
+    df$Home_ID[i] <- 1610612744
+  } else if (df$Home[i] == "Houston Rockets") {
+    df$Home_ID[i] <- 1610612745
+  } else if (df$Home[i] == "Indiana Pacers") {
+    df$Home_ID[i] <- 1610612754
+  } else if (df$Home[i] == "Los Angeles Clippers") {
+    df$Home_ID[i] <- 1610612746
+  } else if (df$Home[i] == "Los Angeles Lakers") {
+    df$Home_ID[i] <- 1610612747
+  } else if (df$Home[i] == "Memphis Grizzlies") {
+    df$Home_ID[i] <- 1610612763
+  } else if (df$Home[i] == "Miami Heat") {
+    df$Home_ID[i] <- 1610612748
+  } else if (df$Home[i] == "Milwaukee Bucks") {
+    df$Home_ID[i] <- 1610612749
+  } else if (df$Home[i] == "Minnesota Timberwolves") {
+    df$Home_ID[i] <- 1610612750
+  } else if (df$Home[i] == "New Orleans Pelicans") {
+    df$Home_ID[i] <- 1610612740
+  } else if (df$Home[i] == "New York Knicks") {
+    df$Home_ID[i] <- 1610612752
+  } else if (df$Home[i] == "Oklahoma City Thunder") {
+    df$Home_ID[i] <- 1610612760
+  } else if (df$Home[i] == "Orlando Magic") {
+    df$Home_ID[i] <- 1610612753
+  } else if (df$Home[i] == "Philadelphia 76ers") {
+    df$Home_ID[i] <- 1610612755
+  } else if (df$Home[i] == "Phoenix Suns") {
+    df$Home_ID[i] <- 1610612756
+  } else if (df$Home[i] == "Portland Trail Blazers") {
+    df$Home_ID[i] <- 1610612757
+  } else if (df$Home[i] == "Sacramento Kings") {
+    df$Home_ID[i] <- 1610612758
+  } else if (df$Home[i] == "San Antonio Spurs") {
+    df$Home_ID[i] <- 1610612759
+  } else if (df$Home[i] == "Toronto Raptors") {
+    df$Home_ID[i] <- 1610612761
+  } else if (df$Home[i] == "Utah Jazz") {
+    df$Home_ID[i] <- 1610612762
+  } else if (df$Home[i] == "Washington Wizards") {
+    df$Home_ID[i] <- 1610612764
+  }
+}
+
+df
+
+
+```
+
+
+```{r}
+
+
+for (i in 1:nrow(df)) {
+  if (df$Home_ID[i] == 1610612737) {
+    df$Home_TPG[i] <- 8090
+    df$Home_TSG[i] <- 486
+    df$Home_TOG[i] <- 743
+    df$Home_PPG[i] <- 109.6478873
+    df$Home_SPG[i] <- 7.126760563
+    df$Home_OPG[i] <- 11.14084507
+  } else if (df$Home_ID[i] == 1610612738) {
+    df$Home_TPG[i] <- 8353
+    df$Home_TSG[i] <- 456
+    df$Home_TOG[i] <- 689
+    df$Home_PPG[i] <- 112.4583333
+    df$Home_SPG[i] <- 7.944444444
+    df$Home_OPG[i] <- 8.819444444
+  } else if (df$Home_ID[i] == 1610612739) {
+    df$Home_TPG[i] <- 8070
+    df$Home_TSG[i] <- 520
+    df$Home_TOG[i] <- 701
+    df$Home_PPG[i] <- 110.8857143
+    df$Home_SPG[i] <- 6.814285714
+    df$Home_OPG[i] <- 11.71428571
+  } else if (df$Home_ID[i] == 1610612740) {
+    df$Home_TPG[i] <- 7860
+    df$Home_TSG[i] <- 581
+    df$Home_TOG[i] <- 747
+    df$Home_PPG[i] <- 116.6056338
+    df$Home_SPG[i] <- 7.014084507
+    df$Home_OPG[i] <- 9.929577465
+  } else if (df$Home_ID[i] == 1610612741) {
+    df$Home_TPG[i] <- 7835
+    df$Home_TSG[i] <- 524
+    df$Home_TOG[i] <- 626
+    df$Home_PPG[i] <- 110.0972222
+    df$Home_SPG[i] <- 7.75
+    df$Home_OPG[i] <- 11.22222222
+  } else if (df$Home_ID[i] == 1610612742) {
+    df$Home_TPG[i] <- 7970
+    df$Home_TSG[i] <- 451
+    df$Home_TOG[i] <- 547
+    df$Home_PPG[i] <- 112.2857143
+    df$Home_SPG[i] <- 8.3
+    df$Home_OPG[i] <- 10.67142857
+  } else if (df$Home_ID[i] == 1610612743) {
+    df$Home_TPG[i] <- 8180
+    df$Home_TSG[i] <- 531
+    df$Home_TOG[i] <- 703
+    df$Home_PPG[i] <- 107.6111111
+    df$Home_SPG[i] <- 8.111111111
+    df$Home_OPG[i] <- 9.722222222
+  } else if (df$Home_ID[i] == 1610612744) {
+    df$Home_TPG[i] <- 8007
+    df$Home_TSG[i] <- 495
+    df$Home_TOG[i] <- 699
+    df$Home_PPG[i] <- 110.0833333
+    df$Home_SPG[i] <- 7.194444444
+    df$Home_OPG[i] <- 10.06944444
+  } else if (df$Home_ID[i] == 1610612745) {
+    df$Home_TPG[i] <- 7613
+    df$Home_TSG[i] <- 495
+    df$Home_TOG[i] <- 912
+    df$Home_PPG[i] <- 115.5714286
+    df$Home_SPG[i] <- 6.942857143
+    df$Home_OPG[i] <- 10.61428571
+  } else if (df$Home_ID[i] == 1610612746) {
+    df$Home_TPG[i] <- 7899
+    df$Home_TSG[i] <- 486
+    df$Home_TOG[i] <- 686
+    df$Home_PPG[i] <- 113.5138889
+    df$Home_SPG[i] <- 6.013888889
+    df$Home_OPG[i] <- 12.52777778
+  } else if (df$Home_ID[i] == 1610612747) {
+    df$Home_TPG[i] <- 8271
+    df$Home_TSG[i] <- 459
+    df$Home_TOG[i] <- 700
+    df$Home_PPG[i] <- 112.8309859
+    df$Home_SPG[i] <- 6.676056338
+    df$Home_OPG[i] <- 10.91549296
+  } else if (df$Home_ID[i] == 1610612748) {
+    df$Home_TPG[i] <- 7748
+    df$Home_TSG[i] <- 584
+    df$Home_TOG[i] <- 700
+    df$Home_PPG[i] <- 113.4202899
+    df$Home_SPG[i] <- 7.652173913
+    df$Home_OPG[i] <- 8.492753623
+  } else if (df$Home_ID[i] == 1610612749) {
+    df$Home_TPG[i] <- 8013
+    df$Home_TSG[i] <- 445
+    df$Home_TOG[i] <- 781
+    df$Home_PPG[i] <- 107.1830986
+    df$Home_SPG[i] <- 8.112676056
+    df$Home_OPG[i] <- 9.746478873
+  } else if (df$Home_ID[i] == 1610612750) {
+    df$Home_TPG[i] <- 8097
+    df$Home_TSG[i] <- 572
+    df$Home_TOG[i] <- 635
+    df$Home_PPG[i] <- 113.5285714
+    df$Home_SPG[i] <- 7.671428571
+    df$Home_OPG[i] <- 8.571428571
+  } else if (df$Home_ID[i] == 1610612751) {
+    df$Home_TPG[i] <- 8011
+    df$Home_TSG[i] <- 474
+    df$Home_TOG[i] <- 775
+    df$Home_PPG[i] <- 108.8309859
+    df$Home_SPG[i] <- 7.098591549
+    df$Home_OPG[i] <- 13.05633803
+  } else if (df$Home_ID[i] == 1610612752) {
+    df$Home_TPG[i] <- 8173
+    df$Home_TSG[i] <- 433
+    df$Home_TOG[i] <- 902
+    df$Home_PPG[i] <- 111.9285714
+    df$Home_SPG[i] <- 7.485714286
+    df$Home_OPG[i] <- 8.942857143
+  } else if (df$Home_ID[i] == 1610612753) {
+    df$Home_TPG[i] <- 7813
+    df$Home_TSG[i] <- 504
+    df$Home_TOG[i] <- 716
+    df$Home_PPG[i] <- 115.2112676
+    df$Home_SPG[i] <- 7.478873239
+    df$Home_OPG[i] <- 9.901408451
+  } else if (df$Home_ID[i] == 1610612754) {
+    df$Home_TPG[i] <- 8111
+    df$Home_TSG[i] <- 555
+    df$Home_TOG[i] <- 701
+    df$Home_PPG[i] <- 111.2535211
+    df$Home_SPG[i] <- 6.845070423
+    df$Home_OPG[i] <- 9.661971831
+  } else if (df$Home_ID[i] == 1610612755) {
+    df$Home_TPG[i] <- 8290
+    df$Home_TSG[i] <- 534
+    df$Home_TOG[i] <- 709
+    df$Home_PPG[i] <- 112.2816901
+    df$Home_SPG[i] <- 8.295774648
+    df$Home_OPG[i] <- 10.63380282
+  } else if (df$Home_ID[i] == 1610612756) {
+    df$Home_TPG[i] <- 7813
+    df$Home_TSG[i] <- 506
+    df$Home_TOG[i] <- 820
+    df$Home_PPG[i] <- 114.4714286
+    df$Home_SPG[i] <- 6.357142857
+    df$Home_OPG[i] <- 11.15714286
+  } else if (df$Home_ID[i] == 1610612757) {
+    df$Home_TPG[i] <- 8009
+    df$Home_TSG[i] <- 463
+    df$Home_TOG[i] <- 672
+    df$Home_PPG[i] <- 114.875
+    df$Home_SPG[i] <- 6.375
+    df$Home_OPG[i] <- 9.722222222
+  } else if (df$Home_ID[i] == 1610612758) {
+    df$Home_TPG[i] <- 8115
+    df$Home_TSG[i] <- 445
+    df$Home_TOG[i] <- 786
+    df$Home_PPG[i] <- 116.6388889
+    df$Home_SPG[i] <- 7
+    df$Home_OPG[i] <- 10.01388889
+  } else if (df$Home_ID[i] == 1610612759) {
+    df$Home_TPG[i] <- 7762
+    df$Home_TSG[i] <- 477
+    df$Home_TOG[i] <- 820
+    df$Home_PPG[i] <- 112.8142857
+    df$Home_SPG[i] <- 6.442857143
+    df$Home_OPG[i] <- 9.485714286
+  } else if (df$Home_ID[i] == 1610612760) {
+    df$Home_TPG[i] <- 8244
+    df$Home_TSG[i] <- 585
+    df$Home_TOG[i] <- 798
+    df$Home_PPG[i] <- 111.0140845
+    df$Home_SPG[i] <- 6.873239437
+    df$Home_OPG[i] <- 11.77464789
+  } else if (df$Home_ID[i] == 1610612761) {
+    df$Home_TPG[i] <- 7895
+    df$Home_TSG[i] <- 654
+    df$Home_TOG[i] <- 893
+    df$Home_PPG[i] <- 114.2394366
+    df$Home_SPG[i] <- 7.816901408
+    df$Home_OPG[i] <- 9.873239437
+  } else if (df$Home_ID[i] == 1610612762) {
+    df$Home_TPG[i] <- 7926
+    df$Home_TSG[i] <- 518
+    df$Home_TOG[i] <- 725
+    df$Home_PPG[i] <- 115.1388889
+    df$Home_SPG[i] <- 7.416666667
+    df$Home_OPG[i] <- 9.847222222
+  } else if (df$Home_ID[i] == 1610612763) {
+    df$Home_TPG[i] <- 7929
+    df$Home_TSG[i] <- 513
+    df$Home_TOG[i] <- 827
+    df$Home_PPG[i] <- 115.7323944
+    df$Home_SPG[i] <- 6.943661972
+    df$Home_OPG[i] <- 10.64788732
+  } else if (df$Home_ID[i] == 1610612764) {
+    df$Home_TPG[i] <- 7890
+    df$Home_TSG[i] <- 482
+    df$Home_TOG[i] <- 657
+    df$Home_PPG[i] <- 114.1571429
+    df$Home_SPG[i] <- 8.271428571
+    df$Home_OPG[i] <- 12.15714286
+  } else if (df$Home_ID[i] == 1610612765) {
+    df$Home_TPG[i] <- 7785
+    df$Home_TSG[i] <- 506
+    df$Home_TOG[i] <- 791
+    df$Home_PPG[i] <- 110.9571429
+    df$Home_SPG[i] <- 9.2
+    df$Home_OPG[i] <- 12.48571429
+  } else if (df$Home_ID[i] == 1610612766) {
+    df$Home_TPG[i] <- 7927
+    df$Home_TSG[i] <- 558
+    df$Home_TOG[i] <- 808
+    df$Home_PPG[i] <- 110.5479452
+    df$Home_SPG[i] <- 7.123287671
+    df$Home_OPG[i] <- 9.602739726
+  }
+}
+
+df
+
+
+
+```
+
+```{r}
+
+for (i in 1:nrow(df)) {
+  if (df$Away_ID[i] == 1610612737) {
+    df$Away_TPG[i] <- 8090
+    df$Away_TSG[i] <- 486
+    df$Away_TOG[i] <- 743
+    df$Away_PPG[i] <- 109.6478873
+    df$Away_SPG[i] <- 7.126760563
+    df$Away_OPG[i] <- 11.14084507
+  } else if (df$Away_ID[i] == 1610612738) {
+    df$Away_TPG[i] <- 8353
+    df$Away_TSG[i] <- 456
+    df$Away_TOG[i] <- 689
+    df$Away_PPG[i] <- 112.4583333
+    df$Away_SPG[i] <- 7.944444444
+    df$Away_OPG[i] <- 8.819444444
+  } else if (df$Away_ID[i] == 1610612739) {
+    df$Away_TPG[i] <- 8070
+    df$Away_TSG[i] <- 520
+    df$Away_TOG[i] <- 701
+    df$Away_PPG[i] <- 110.8857143
+    df$Away_SPG[i] <- 6.814285714
+    df$Away_OPG[i] <- 11.71428571
+  } else if (df$Away_ID[i] == 1610612740) {
+    df$Away_TPG[i] <- 7860
+    df$Away_TSG[i] <- 581
+    df$Away_TOG[i] <- 747
+    df$Away_PPG[i] <- 116.6056338
+    df$Away_SPG[i] <- 7.014084507
+    df$Away_OPG[i] <- 9.929577465
+  } else if (df$Away_ID[i] == 1610612741) {
+    df$Away_TPG[i] <- 7835
+    df$Away_TSG[i] <- 524
+    df$Away_TOG[i] <- 626
+    df$Away_PPG[i] <- 110.0972222
+    df$Away_SPG[i] <- 7.75
+    df$Away_OPG[i] <- 11.22222222
+  } else if (df$Away_ID[i] == 1610612742) {
+    df$Away_TPG[i] <- 7970
+    df$Away_TSG[i] <- 451
+    df$Away_TOG[i] <- 547
+    df$Away_PPG[i] <- 112.2857143
+    df$Away_SPG[i] <- 8.3
+    df$Away_OPG[i] <- 10.67142857
+  } else if (df$Away_ID[i] == 1610612743) {
+    df$Away_TPG[i] <- 8180
+    df$Away_TSG[i] <- 531
+    df$Away_TOG[i] <- 703
+    df$Away_PPG[i] <- 107.6111111
+    df$Away_SPG[i] <- 8.111111111
+    df$Away_OPG[i] <- 9.722222222
+  } else if (df$Away_ID[i] == 1610612744) {
+    df$Away_TPG[i] <- 8007
+    df$Away_TSG[i] <- 495
+    df$Away_TOG[i] <- 699
+    df$Away_PPG[i] <- 110.0833333
+    df$Away_SPG[i] <- 7.194444444
+    df$Away_OPG[i] <- 10.06944444
+  } else if (df$Away_ID[i] == 1610612745) {
+    df$Away_TPG[i] <- 7613
+    df$Away_TSG[i] <- 495
+    df$Away_TOG[i] <- 912
+    df$Away_PPG[i] <- 115.5714286
+    df$Away_SPG[i] <- 6.942857143
+    df$Away_OPG[i] <- 10.61428571
+  } else if (df$Away_ID[i] == 1610612746) {
+    df$Away_TPG[i] <- 7899
+    df$Away_TSG[i] <- 486
+    df$Away_TOG[i] <- 686
+    df$Away_PPG[i] <- 113.5138889
+    df$Away_SPG[i] <- 6.013888889
+    df$Away_OPG[i] <- 12.52777778
+  } else if (df$Away_ID[i] == 1610612747) {
+    df$Away_TPG[i] <- 8271
+    df$Away_TSG[i] <- 459
+    df$Away_TOG[i] <- 700
+    df$Away_PPG[i] <- 112.8309859
+    df$Away_SPG[i] <- 6.676056338
+    df$Away_OPG[i] <- 10.91549296
+  } else if (df$Away_ID[i] == 1610612748) {
+    df$Away_TPG[i] <- 7748
+    df$Away_TSG[i] <- 584
+    df$Away_TOG[i] <- 700
+    df$Away_PPG[i] <- 113.4202899
+    df$Away_SPG[i] <- 7.652173913
+    df$Away_OPG[i] <- 8.492753623
+  } else if (df$Away_ID[i] == 1610612749) {
+    df$Away_TPG[i] <- 8013
+    df$Away_TSG[i] <- 445
+    df$Away_TOG[i] <- 781
+    df$Away_PPG[i] <- 107.1830986
+    df$Away_SPG[i] <- 8.112676056
+    df$Away_OPG[i] <- 9.746478873
+  } else if (df$Away_ID[i] == 1610612750) {
+    df$Away_TPG[i] <- 8097
+    df$Away_TSG[i] <- 572
+    df$Away_TOG[i] <- 635
+    df$Away_PPG[i] <- 113.5285714
+    df$Away_SPG[i] <- 7.671428571
+    df$Away_OPG[i] <- 8.571428571
+  } else if (df$Away_ID[i] == 1610612751) {
+    df$Away_TPG[i] <- 8011
+    df$Away_TSG[i] <- 474
+    df$Away_TOG[i] <- 775
+    df$Away_PPG[i] <- 108.8309859
+    df$Away_SPG[i] <- 7.098591549
+    df$Away_OPG[i] <- 13.05633803
+  } else if (df$Away_ID[i] == 1610612752) {
+    df$Away_TPG[i] <- 8173
+    df$Away_TSG[i] <- 433
+    df$Away_TOG[i] <- 902
+    df$Away_PPG[i] <- 111.9285714
+    df$Away_SPG[i] <- 7.485714286
+    df$Away_OPG[i] <- 8.942857143
+  } else if (df$Away_ID[i] == 1610612753) {
+    df$Away_TPG[i] <- 7813
+    df$Away_TSG[i] <- 504
+    df$Away_TOG[i] <- 716
+    df$Away_PPG[i] <- 115.2112676
+    df$Away_SPG[i] <- 7.478873239
+    df$Away_OPG[i] <- 9.901408451
+  } else if (df$Away_ID[i] == 1610612754) {
+    df$Away_TPG[i] <- 8111
+    df$Away_TSG[i] <- 555
+    df$Away_TOG[i] <- 701
+    df$Away_PPG[i] <- 111.2535211
+    df$Away_SPG[i] <- 6.845070423
+    df$Away_OPG[i] <- 9.661971831
+  } else if (df$Away_ID[i] == 1610612755) {
+    df$Away_TPG[i] <- 8290
+    df$Away_TSG[i] <- 534
+    df$Away_TOG[i] <- 709
+    df$Away_PPG[i] <- 112.2816901
+    df$Away_SPG[i] <- 8.295774648
+    df$Away_OPG[i] <- 10.63380282
+  } else if (df$Away_ID[i] == 1610612756) {
+    df$Away_TPG[i] <- 7813
+    df$Away_TSG[i] <- 506
+    df$Away_TOG[i] <- 820
+    df$Away_PPG[i] <- 114.4714286
+    df$Away_SPG[i] <- 6.357142857
+    df$Away_OPG[i] <- 11.15714286
+  } else if (df$Away_ID[i] == 1610612757) {
+    df$Away_TPG[i] <- 8009
+    df$Away_TSG[i] <- 463
+    df$Away_TOG[i] <- 672
+    df$Away_PPG[i] <- 114.875
+    df$Away_SPG[i] <- 6.375
+    df$Away_OPG[i] <- 9.722222222
+  } else if (df$Away_ID[i] == 1610612758) {
+    df$Away_TPG[i] <- 8115
+    df$Away_TSG[i] <- 445
+    df$Away_TOG[i] <- 786
+    df$Away_PPG[i] <- 116.6388889
+    df$Away_SPG[i] <- 7
+    df$Away_OPG[i] <- 10.01388889
+  } else if (df$Away_ID[i] == 1610612759) {
+    df$Away_TPG[i] <- 7762
+    df$Away_TSG[i] <- 477
+    df$Away_TOG[i] <- 820
+    df$Away_PPG[i] <- 112.8142857
+    df$Away_SPG[i] <- 6.442857143
+    df$Away_OPG[i] <- 9.485714286
+  } else if (df$Away_ID[i] == 1610612760) {
+    df$Away_TPG[i] <- 8244
+    df$Away_TSG[i] <- 585
+    df$Away_TOG[i] <- 798
+    df$Away_PPG[i] <- 111.0140845
+    df$Away_SPG[i] <- 6.873239437
+    df$Away_OPG[i] <- 11.77464789
+  } else if (df$Away_ID[i] == 1610612761) {
+    df$Away_TPG[i] <- 7895
+    df$Away_TSG[i] <- 654
+    df$Away_TOG[i] <- 893
+    df$Away_PPG[i] <- 114.2394366
+    df$Away_SPG[i] <- 7.816901408
+    df$Away_OPG[i] <- 9.873239437
+  } else if (df$Away_ID[i] == 1610612762) {
+    df$Away_TPG[i] <- 7926
+    df$Away_TSG[i] <- 518
+    df$Away_TOG[i] <- 725
+    df$Away_PPG[i] <- 115.1388889
+    df$Away_SPG[i] <- 7.416666667
+    df$Away_OPG[i] <- 9.847222222
+  } else if (df$Away_ID[i] == 1610612763) {
+    df$Away_TPG[i] <- 7929
+    df$Away_TSG[i] <- 513
+    df$Away_TOG[i] <- 827
+    df$Away_PPG[i] <- 115.7323944
+    df$Away_SPG[i] <- 6.943661972
+    df$Away_OPG[i] <- 10.64788732
+  } else if (df$Away_ID[i] == 1610612764) {
+    df$Away_TPG[i] <- 7890
+    df$Away_TSG[i] <- 482
+    df$Away_TOG[i] <- 657
+    df$Away_PPG[i] <- 114.1571429
+    df$Away_SPG[i] <- 8.271428571
+    df$Away_OPG[i] <- 12.15714286
+  } else if (df$Away_ID[i] == 1610612765) {
+    df$Away_TPG[i] <- 7785
+    df$Away_TSG[i] <- 506
+    df$Away_TOG[i] <- 791
+    df$Away_PPG[i] <- 110.9571429
+    df$Away_SPG[i] <- 9.2
+    df$Away_OPG[i] <- 12.48571429
+  } else if (df$Away_ID[i] == 1610612766) {
+    df$Away_TPG[i] <- 7927
+    df$Away_TSG[i] <- 558
+    df$Away_TOG[i] <- 808
+    df$Away_PPG[i] <- 110.5479452
+    df$Away_SPG[i] <- 7.123287671
+    df$Away_OPG[i] <- 9.602739726
+  }
+}
+
+df
+
+
+```
+
+```{r}
+
+df_final <- read_csv("my_dataframe.csv")
+
+
+
+
+colnames(df_final)[colnames(df_final) == "Spread_Pred"] ="Spread_Pred.x"
+
+df_final
+
+```
+
+```{r}
+
+
+
+
+df1 <- read_csv("Final_Data.csv")
+
+model <- lm(formula = Spread ~ Spread_Pred.x, data = df1)
+
+predictions <- predict(model, newdata = df_final)
+
+predicts <- as.data.frame(predictions)
+
+predicts
+
+```
+
+```{r}
+
+write.csv(predicts, "spred_predicts.csv", row.names = FALSE)
+
+```
+
